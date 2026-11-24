@@ -75,6 +75,44 @@ describe('TestResultsSearchPage', () => {
   });
 
   describe('DOM', () => {
+    it.each([ExaminerRole.DE, ExaminerRole.LDTM])('renders a working booking reference input for %s', (role) => {
+      vi.spyOn(appConfigProviderMock, 'getAppConfig').mockReturnValue({ role } as AppConfig);
+      fixture.detectChanges();
+
+      const inputs = fixture.debugElement.queryAll(By.css('#test-result-search-appReference-input'));
+      expect(inputs).toHaveLength(1);
+      const input = inputs[0];
+      expect(input.nativeElement.getAttribute('aria-label')).toBe('Booking reference');
+
+      input.triggerEventHandler('ionFocus');
+      expect(component.focusedElement).toBe('field');
+      input.triggerEventHandler('ionInput', { target: { value: 'd123' } });
+      expect(component.candidateInfo).toBe('D123');
+      input.triggerEventHandler('ionBlur', { target: input.nativeElement });
+      expect(component.focusedElement).toBeNull();
+    });
+
+    it.each([ExaminerRole.LDTM, ExaminerRole.DLG])(
+      'replaces the booking reference input when searching by driver number for %s',
+      (role) => {
+        vi.spyOn(appConfigProviderMock, 'getAppConfig').mockReturnValue({ role } as AppConfig);
+        fixture.detectChanges();
+        fixture.debugElement.query(By.css('#search-by-driver-number')).triggerEventHandler('change');
+        fixture.detectChanges();
+
+        expect(fixture.debugElement.query(By.css('#test-result-search-appReference-input'))).toBeNull();
+        expect(fixture.debugElement.query(By.css('#test-result-search-driverNumber-input'))).not.toBeNull();
+      }
+    );
+
+    it('does not display driver number search for a DE', () => {
+      vi.spyOn(appConfigProviderMock, 'getAppConfig').mockReturnValue({ role: ExaminerRole.DE } as AppConfig);
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('#search-by-driver-number'))).toBeNull();
+      expect(fixture.debugElement.query(By.css('#test-result-search-appReference-input'))).not.toBeNull();
+    });
+
     it('should keep initial bindings stable during change detection', () => {
       fixture.detectChanges();
       expect(() => fixture.checkNoChanges()).not.toThrow();
@@ -243,6 +281,22 @@ describe('TestResultsSearchPage', () => {
       it('should set searchBy to the passed parameter', () => {
         component.searchByChanged('test');
         expect(component.searchBy).toEqual('test');
+      });
+    });
+
+    describe('showDriverNumOptions', () => {
+      it.each([
+        [ExaminerRole.LDTM, true],
+        [ExaminerRole.DLG, true],
+        [ExaminerRole.DE, false],
+      ])('returns the correct value for %s', (role, expected) => {
+        vi.spyOn(appConfigProviderMock, 'getAppConfig').mockReturnValue({ role } as AppConfig);
+        expect(component.showDriverNumOptions()).toBe(expected);
+      });
+
+      it('returns false when configuration is unavailable', () => {
+        vi.spyOn(appConfigProviderMock, 'getAppConfig').mockReturnValue(null);
+        expect(component.showDriverNumOptions()).toBe(false);
       });
     });
 
