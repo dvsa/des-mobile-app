@@ -192,12 +192,18 @@ export class ReverseDiagramPage implements OnInit {
   }
 
   onLengthKeyup(vehicleLength: number): void {
-    this.store$.dispatch(ReverseDiagramLengthChanged(this.vehicleLength, vehicleLength));
     this.calculateReversingLengths(vehicleLength);
   }
 
+  onLengthChange(vehicleLength: number): void {
+    this.store$.dispatch(ReverseDiagramLengthChanged(this.vehicleLength, vehicleLength));
+  }
+
   onWidthKeyup(vehicleWidth: number): void {
-    this.store$.dispatch(ReverseDiagramWidthChanged(this.vehicleWidth, vehicleWidth));
     this.calculateReversingWidth(vehicleWidth);
+  }
+
+  onWidthChange(vehicleWidth: number): void {
+    this.store$.dispatch(ReverseDiagramWidthChanged(this.vehicleWidth, vehicleWidth));
   }
 }
