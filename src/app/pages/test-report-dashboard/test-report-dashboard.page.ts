@@ -77,6 +77,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   feedback: string;
   hasClickedComplete = false;
   merged$: Observable<string | void>;
+  feedbackCharLimit = 950;
 
   constructor(
     private testResultProvider: TestResultProvider,
@@ -177,6 +178,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
   onContinueClick = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    console.log(this.feedback, this.feedbackCharLimit);
     this.hasClickedComplete = true;
     if (this.isTestReportPopulated && this.testDataADI3.riskManagement.score < 8) {
       const code4Modal: HTMLIonModalElement = await this.modalController.create({

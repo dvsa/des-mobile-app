@@ -28,7 +28,8 @@
               id="review-card-feedback-textarea"
               formControlName="feedback"
               class="mes-data input-styling-background"
-              [charLimit]="feedbackMaxLength"
+              [charLimit]="feedbackCharLimit"
+              [maxlength]="feedbackCharLimit"
               charCount
               [class.ng-invalid]="invalid"
               [value]="feedback"

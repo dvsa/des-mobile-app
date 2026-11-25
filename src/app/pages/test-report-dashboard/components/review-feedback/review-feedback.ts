@@ -40,12 +40,14 @@ export class ReviewFeedback {
   @Input()
   feedback: string;
 
+  @Input()
+  feedbackCharLimit: number;
+
   @Output()
   feedbackChange = new EventEmitter<string>();
 
   formControl: UntypedFormControl;
   charsRemaining: number = null;
-  feedbackMaxLength = 950;
 
   constructor(public characterCountService: CharacterCountService) {}
 
