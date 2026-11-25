@@ -14,7 +14,7 @@
     <tabs>
       <tab [tabTitle]="'Candidate details'" id="tab-search-candidate-details">
         <ion-grid>
-        @if (showDriverNumOptions()) {
+          @if (showDriverNumOptions()) {
             <ion-row class="ion-align-self-center">
               <ion-col class="display-flex ion-align-items-center" size="22">
                 <label class="auto-height">Search by</label>
@@ -69,12 +69,16 @@
             </ion-row>
             <ion-row>
               <ion-col class="ion-align-content-center">
-                <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && !isUserEnteringApplicationReference"
-                          class="mes-data ion-align-content-center transparent">Enter the reference without spaces
+                <ion-text
+                  [class.booking-ref-explainer]="candidateInfo !== '' &&
+                  searchBy === 'appReference' &&
+                  !isUserEnteringApplicationReference"
+                  class="mes-data ion-align-content-center transparent">
+                  Enter the reference without spaces
                 </ion-text>
               </ion-col>
             </ion-row>
-        } @else {
+          } @else {
             <ion-row class="ion-align-self-center">
               <ion-col class="display-flex ion-align-items-center" size="22">
                 <label class="auto-height">Search by booking reference</label>
@@ -85,12 +89,12 @@
             </ion-row>
             <ion-row>
               <ion-col class="ion-align-content-center">
-                <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && searchBy === 'appReference' && !isUserEnteringApplicationReference"
+                <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && !isUserEnteringApplicationReference"
                           class="mes-data ion-align-content-center transparent">Enter the reference without spaces
                 </ion-text>
               </ion-col>
             </ion-row>
-        }
+          }
           <ion-row class="ion-padding-top">
             <ion-button
               (click)="searchTests()"
