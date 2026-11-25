@@ -14,80 +14,87 @@
     <tabs>
       <tab [tabTitle]="'Candidate details'" id="tab-search-candidate-details">
         <ion-grid>
-          <ion-row class="ion-align-self-center">
-            <ion-col class="display-flex ion-align-items-center" size="22">
-              <label class="auto-height">Search by</label>
-            </ion-col>
-            <ion-col class="flex-center" size="40">
-              <input
-                type="radio"
-                id="search-by-app-reference"
-                class="gds-radio-button"
-                name="searchBy"
-                value="appReference"
-                [checked]="searchBy === 'appReference'"
-                (change)="searchByChanged('appReference')"
-              />
-              <label for="search-by-app-reference" class="radio-label"> Booking reference </label>
-            </ion-col>
-            <ion-col class="flex-center" size="34">
-              <input
-                type="radio"
-                id="search-by-driver-number"
-                class="gds-radio-button"
-                name="searchBy"
-                value="driverNumber"
-                [checked]="searchBy === 'driverNumber'"
-                (change)="searchByChanged('driverNumber')"
-              />
-              <label for="search-by-driver-number" class="radio-label"> Driver number </label>
-            </ion-col>
-          </ion-row>
-          <ion-row class="ion-padding-top">
-            <ion-col size="96">
-              @if (searchBy === 'appReference') {
-                <ion-input
-                  placeholder="Enter a booking reference"
-                  id="test-result-search-{{searchBy}}-input"
-                  type="text"
-                  class="ion-input-styling custom-font-size"
-                  aria-label="Booking reference"
-                  [clearInput]="true"
-                  (ionFocus)="setFocus('field')"
-                  (ionBlur)="setFocus(null)"
-                  [ngClass]="{'input-focus': focusedElement === 'field'}"
-                  [value]="candidateInfo"
-                  (ionInput)="candidateInfoChanged($event.target.value)"
-                  [maskito]="getBookingReferenceMask()"
-                  [maskitoElement]="getMaskPredicate()"
-                >
-                </ion-input>
-              } @else {
-                <ion-input
-                  id="test-result-search-{{searchBy}}-input"
-                  [placeholder]="'Enter a driver number'"
-                  aria-label="Driver number"
-                  type="text"
-                  class="ion-input-styling custom-font-size"
-                  [clearInput]="true"
-                  uppercaseAlphanumOnly
-                  (ionFocus)="setFocus('field')"
-                  (ionBlur)="setFocus(null)"
-                  [value]="candidateInfo"
-                  [ngClass]="{'input-focus': focusedElement === 'field'}"
-                  (ionInput)="candidateInfoChanged($event.target.value)"
-                >
-                </ion-input>
-              }
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col class="ion-align-content-center">
-              <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && searchBy === 'appReference' && !isUserEnteringApplicationReference"
-                        class="mes-data ion-align-content-center transparent">Enter the reference without spaces
-              </ion-text>
-            </ion-col>
-          </ion-row>
+          @if (showDriverNumOptions()) {
+            <ion-row class="ion-align-self-center">
+              <ion-col class="display-flex ion-align-items-center" size="22">
+                <label class="auto-height">Search by</label>
+              </ion-col>
+              <ion-col class="flex-center" size="40">
+                <input
+                  type="radio"
+                  id="search-by-app-reference"
+                  class="gds-radio-button"
+                  name="searchBy"
+                  value="appReference"
+                  [checked]="searchBy === 'appReference'"
+                  (change)="searchByChanged('appReference')"
+                />
+                <label for="search-by-app-reference" class="radio-label"> Booking reference </label>
+              </ion-col>
+              <ion-col class="flex-center" size="34">
+                <input
+                  type="radio"
+                  id="search-by-driver-number"
+                  class="gds-radio-button"
+                  name="searchBy"
+                  value="driverNumber"
+                  [checked]="searchBy === 'driverNumber'"
+                  (change)="searchByChanged('driverNumber')"
+                />
+                <label for="search-by-driver-number" class="radio-label"> Driver number </label>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-padding-top">
+              <ion-col size="96">
+                @if (searchBy === 'appReference') {
+                  <ng-container *ngTemplateOutlet="bookingReferenceInput"></ng-container>
+                } @else {
+                  <ion-input
+                    id="test-result-search-driverNumber-input"
+                    [placeholder]="'Enter a driver number'"
+                    aria-label="Driver number"
+                    type="text"
+                    class="ion-input-styling custom-font-size"
+                    [clearInput]="true"
+                    uppercaseAlphanumOnly
+                    (ionFocus)="setFocus('field')"
+                    (ionBlur)="setFocus(null)"
+                    [value]="candidateInfo"
+                    [ngClass]="{'input-focus': focusedElement === 'field'}"
+                    (ionInput)="candidateInfoChanged($event.target.value)"
+                  >
+                  </ion-input>
+                }
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="ion-align-content-center">
+                <ion-text
+                  [class.booking-ref-explainer]="candidateInfo !== '' &&
+                  searchBy === 'appReference' &&
+                  !isUserEnteringApplicationReference"
+                  class="mes-data ion-align-content-center transparent">
+                  Enter the reference without spaces
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          } @else {
+            <ion-row class="ion-align-self-center">
+              <ion-col class="display-flex ion-align-items-center" size="22">
+                <label class="auto-height">Search by booking reference</label>
+              </ion-col>
+              <ion-col class="ion-align-items-center flex-center">
+                <ng-container *ngTemplateOutlet="bookingReferenceInput"></ng-container>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="ion-align-content-center">
+                <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && !isUserEnteringApplicationReference"
+                          class="mes-data ion-align-content-center transparent">Enter the reference without spaces
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          }
           <ion-row class="ion-padding-top">
             <ion-button
               (click)="searchTests()"
@@ -141,3 +148,22 @@
     }
   </div>
 </ion-content>
+
+<ng-template #bookingReferenceInput>
+  <ion-input
+    placeholder="Enter a booking reference"
+    id="test-result-search-appReference-input"
+    type="text"
+    class="ion-input-styling custom-font-size"
+    aria-label="Booking reference"
+    [clearInput]="true"
+    (ionFocus)="setFocus('field')"
+    (ionBlur)="setFocus(null)"
+    [ngClass]="{'input-focus': focusedElement === 'field'}"
+    [value]="candidateInfo"
+    (ionInput)="candidateInfoChanged($event.target.value)"
+    [maskito]="getBookingReferenceMask()"
+    [maskitoElement]="getMaskPredicate()"
+  >
+  </ion-input>
+</ng-template>

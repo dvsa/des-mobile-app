@@ -21,7 +21,7 @@ import { select } from '@ngrx/store';
 import { Observable, Subscription, merge, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TabComponent } from '@components/common/tab/tab';
 import { TabsComponent } from '@components/common/tabs/tabs';
@@ -82,6 +82,7 @@ interface TestResultPageState {
     IonCol,
     IonInput,
     NgClass,
+    NgTemplateOutlet,
     MaskitoDirective,
     InputRestrictionUppercaseAlphanumDirective,
     IonText,
@@ -159,6 +160,10 @@ export class TestResultsSearchPage extends BasePageComponent {
       return null;
     }
     return this.authenticationProvider.getEmployeeId();
+  }
+
+  showDriverNumOptions(): boolean {
+    return [ExaminerRole.LDTM, ExaminerRole.DLG].includes(this.appConfig.getAppConfig()?.role as ExaminerRole);
   }
 
   candidateInfoChanged(val: string) {
