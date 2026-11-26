@@ -1,7 +1,13 @@
 /**
  * Return the remaining character count from an input field
  *
- * The `charLimit` property defines the maximum number of characters for the field
+ * The `charLimit` property defines the UTF-8 byte count used to calculate the
+ * remaining count. The optional numeric `hardLimit` caps user input in UTF-8
+ * bytes; it may differ from `charLimit`, and zero is a valid limit.
+ *
+ * Without `hardLimit`, values can exceed `charLimit` and the emitted count can
+ * be negative. Hard-limit enforcement applies to native inputs and textareas;
+ * it does not truncate initial or programmatically assigned values.
  *
  * ### Example
  *
@@ -9,7 +15,7 @@
  * @Component({
  *   selector: 'person-description',
  *   templateUrl: `
- *     <textarea charCount charLimit="10" [value]="description"
+ *     <textarea charCount [charLimit]="10" [hardLimit]="10" [value]="description"
  *       (onCharacterCountChanged)="characterCountChanged($event)"
  *       (change)="descriptionChanged($event.target.value)">
  *     <div class="character-count">{{getCharacterCountText}}</div>
@@ -32,7 +38,7 @@
  * ```
  *
  * */
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
 @Directive({
   selector: '[charCount]',
@@ -41,11 +47,18 @@ import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } fro
     '(ionChange)': 'onIonChange($event)',
   },
 })
-export class CharacterCountDirective implements AfterViewInit {
+export class CharacterCountDirective implements AfterViewInit, OnDestroy {
   @Input() charLimit: number = null;
+  @Input() hardLimit: number = null;
 
   @Output() onCharacterCountChanged: EventEmitter<number> = new EventEmitter(true);
   $event: Event;
+  // Keep the text and selection from before an edit so a limit does not remove
+  // unrelated text after the caret. Selection offsets are UTF-16 indices.
+  private edit: { value: string; start: number; end: number } = null;
+  // IME input can generate several intermediate input events for one edit.
+  private composing = false;
+  private readonly limitEvents = ['beforeinput', 'paste', 'input', 'compositionstart', 'compositionend'] as const;
 
   constructor(public el: ElementRef) {
     this.charLimit = this.el.nativeElement.getAttribute('charLimit');
@@ -58,10 +71,94 @@ export class CharacterCountDirective implements AfterViewInit {
    * of the input field and emits the result through the `onCharacterCountChanged` event.
    */
   ngAfterViewInit() {
+    const element = this.el.nativeElement;
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+      // Capture-phase input handling corrects the DOM value before Angular's
+      // form value accessor and the character-count input listener read it.
+      // Register regardless of the initial hardLimit so later input changes work.
+      for (const event of this.limitEvents) element.addEventListener(event, this.enforceHardLimit, true);
+    }
     const valueLength = this.el.nativeElement.value || '';
     const byteLength = this.getUtf8ByteLength(valueLength);
-    if (this.charLimit) {
+    if (this.charLimit != null) {
       this.onCharacterCountChanged.emit(this.charLimit - byteLength);
+    }
+  }
+
+  ngOnDestroy(): void {
+    const element = this.el.nativeElement;
+    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+      // These native capture listeners are not removed by Angular automatically.
+      for (const event of this.limitEvents) element.removeEventListener(event, this.enforceHardLimit, true);
+    }
+  }
+
+  private enforceHardLimit = (event: Event): void => {
+    // A null limit disables enforcement; discard any pending edit state as well.
+    if (this.hardLimit == null) {
+      this.edit = null;
+      this.composing = false;
+      return;
+    }
+    const element: HTMLInputElement | HTMLTextAreaElement = this.el.nativeElement;
+    // Capture paste separately: the paste sanitiser inserts text programmatically
+    // and dispatches input without a preceding browser beforeinput event.
+    if (
+      event.type === 'compositionstart' ||
+      ((event.type === 'beforeinput' || event.type === 'paste') && !this.composing)
+    ) {
+      this.edit = {
+        value: element.value,
+        // Non-selectable inputs expose null selection offsets; treat them as a
+        // replacement of the whole value.
+        start: element.selectionStart ?? 0,
+        end: element.selectionEnd ?? element.value.length,
+      };
+      if (event.type === 'compositionstart') this.composing = true;
+    } else if (event.type === 'compositionend' || (event.type === 'input' && !this.composing)) {
+      // Leave intermediate composition text alone, then enforce once it commits.
+      this.composing = false;
+      this.limitInput(element);
+      this.edit = null;
+      // Composition can finish without another input event for the counter.
+      if (event.type === 'compositionend') this.handleChange(element.value);
+    }
+  };
+
+  private limitInput(element: HTMLInputElement | HTMLTextAreaElement): void {
+    const value = element.value;
+    if (this.getUtf8ByteLength(value) <= this.hardLimit) return;
+    const edit = this.edit;
+    // Previously saved values can already exceed the limit. Allow a user to
+    // reduce them incrementally rather than deleting the rest of their text.
+    if (edit && this.getUtf8ByteLength(value) < this.getUtf8ByteLength(edit.value)) return;
+    // The selection separates the original value into text that must be kept
+    // before and after the inserted or replacement text.
+    const before = edit?.value.slice(0, edit.start) ?? '';
+    const after = edit?.value.slice(edit.end) ?? '';
+    // If the change cannot be reconciled with the saved selection, restore it
+    // rather than guessing which existing text the user intended to replace.
+    if (edit && (!value.startsWith(before) || !value.endsWith(after) || value.length < before.length + after.length)) {
+      element.value = edit.value;
+      if (element.selectionStart !== null) element.setSelectionRange(edit.start, edit.end);
+      return;
+    }
+    const inserted = value.slice(before.length, value.length - after.length);
+    let accepted = '';
+    // Iterating by Unicode code point avoids splitting surrogate pairs.
+    // Count both preserved sides so the full result stays within the byte limit.
+    for (const character of inserted) {
+      if (this.getUtf8ByteLength(before + accepted + character + after) > this.hardLimit) break;
+      accepted += character;
+    }
+    // If none of the replacement fits, keep the selected text instead of
+    // deleting it. Otherwise retain as much of the insertion as fits.
+    element.value = edit && inserted && !accepted ? edit.value : before + accepted + after;
+    if (edit && element.selectionStart !== null) {
+      // Restore the selection on rejection; otherwise place the caret after the
+      // accepted text. Without a saved edit, truncation starts at the beginning.
+      if (element.value === edit.value) element.setSelectionRange(edit.start, edit.end);
+      else element.setSelectionRange(before.length + accepted.length, before.length + accepted.length);
     }
   }
 
@@ -74,7 +171,7 @@ export class CharacterCountDirective implements AfterViewInit {
    * @param event - The event object containing the new value of the input field.
    */
   onInput(event: { target: { value: string } }) {
-    const inputElement = event.target as HTMLInputElement;
+    const inputElement = event.target;
     this.handleChange(inputElement.value);
   }
 

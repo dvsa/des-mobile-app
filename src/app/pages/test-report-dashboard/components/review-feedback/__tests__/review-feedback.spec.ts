@@ -22,6 +22,43 @@ describe('ReviewFeedback', () => {
     characterCountService = TestBed.inject(CharacterCountService);
   });
 
+  it('limits pasted feedback to the configured UTF-8 byte limit', async () => {
+    fixture.componentRef.setInput('form', component.form);
+    fixture.componentRef.setInput('feedback', 'ab');
+    fixture.componentRef.setInput('feedbackCharLimit', 4);
+    fixture.detectChanges();
+    const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+    textarea.setSelectionRange(2, 2);
+    const event = new Event('paste', { bubbles: true, cancelable: true, composed: true });
+    Object.defineProperty(event, 'clipboardData', { value: { getData: () => 'éé' } });
+    textarea.dispatchEvent(event);
+    textarea.dispatchEvent(new Event('blur'));
+    await fixture.whenStable();
+
+    expect(textarea.value).toBe('abé');
+    expect(component.formControl.value).toBe('abé');
+    expect(component.charsRemaining).toBe(0);
+    expect(component.formControl.valid).toBe(true);
+  });
+
+  it('limits paste in the middle without removing surrounding text', async () => {
+    fixture.componentRef.setInput('form', component.form);
+    fixture.componentRef.setInput('feedback', 'abXY');
+    fixture.componentRef.setInput('feedbackCharLimit', 6);
+    fixture.detectChanges();
+    const textarea: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+    textarea.setSelectionRange(1, 2);
+    const event = new Event('paste', { bubbles: true, cancelable: true, composed: true });
+    Object.defineProperty(event, 'clipboardData', { value: { getData: () => 'éé' } });
+    textarea.dispatchEvent(event);
+    await fixture.whenStable();
+
+    expect(textarea.value).toBe('aéXY');
+    expect(textarea.selectionStart).toBe(2);
+    expect(component.formControl.value).toBe('aéXY');
+    expect(component.charsRemaining).toBe(1);
+  });
+
   describe('feedbackChanged', () => {
     it('should emit getCharacterCountText with correct parameters', () => {
       vi.spyOn(component.feedbackChange, 'emit').mockReturnValue(undefined);
