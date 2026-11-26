@@ -18,11 +18,10 @@ export class SearchProvider {
     private appConfig: AppConfigProvider
   ) {}
 
-  examinerRecordsSearch(staffNumber: string, startDate?: string, endDate?: string): Observable<string> {
+  examinerRecordsSearch(startDate?: string, endDate?: string): Observable<string> {
     const parameters = {};
 
     [
-      { name: 'staffNumber', val: staffNumber },
       { name: 'startDate', val: startDate },
       { name: 'endDate', val: endDate },
     ].forEach((param) => {
