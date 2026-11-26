@@ -28,7 +28,7 @@ import { getTestCategory } from '@store//tests/category/category.reducer';
 import { getCurrentTest } from '@store//tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from './reverse-diagram-modal.actions';
 
 interface ReverseDiagramPageState {
@@ -112,9 +112,19 @@ export class ReverseDiagramPage implements OnInit {
 
       const { vehicleLength$, vehicleWidth$, category$ } = this.componentState;
       this.merged$ = merge(
-        vehicleLength$.pipe(map((val) => (this.vehicleLength = val))),
-        vehicleWidth$.pipe(map((val) => (this.vehicleWidth = val))),
-        category$.pipe(map((val) => (this.category = val as TestCategory)))
+        vehicleLength$.pipe(
+          tap((val) => {
+            this.vehicleLength = val;
+            this.oldLength = val;
+          })
+        ),
+        vehicleWidth$.pipe(
+          tap((val) => {
+            this.vehicleWidth = val;
+            this.oldWidth = val;
+          })
+        ),
+        category$.pipe(tap((val) => (this.category = val as TestCategory)))
       );
     });
   }
@@ -195,20 +205,20 @@ export class ReverseDiagramPage implements OnInit {
   }
 
   onLengthKeyup(vehicleLength: number): void {
-    this.oldLength = vehicleLength;
     this.calculateReversingLengths(vehicleLength);
   }
 
-  onLengthChange(vehicleLength: number): void {
-    this.store$.dispatch(ReverseDiagramLengthChanged(this.vehicleLength, this.oldLength));
+  onLengthChange(): void {
+    this.store$.dispatch(ReverseDiagramLengthChanged(this.oldLength, this.vehicleLength));
+    this.oldLength = this.vehicleLength;
   }
 
   onWidthKeyup(vehicleWidth: number): void {
-    this.oldWidth = vehicleWidth;
     this.calculateReversingWidth(vehicleWidth);
   }
 
-  onWidthChange(vehicleWidth: number): void {
-    this.store$.dispatch(ReverseDiagramWidthChanged(this.vehicleWidth, this.oldWidth));
+  onWidthChange(): void {
+    this.store$.dispatch(ReverseDiagramWidthChanged(this.oldWidth, this.vehicleWidth));
+    this.oldWidth = this.vehicleWidth;
   }
 }

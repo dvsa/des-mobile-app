@@ -36,7 +36,7 @@
                       class="vehicle-length-input"
                       [value]="vehicleLength"
                       (input)="onLengthKeyup($event.target.value)"
-                      (change)="onLengthChange($event.target.value)"
+                      (change)="onLengthChange()"
                       numbersOnly
                       emojiBlock
                       pasteSanitiser
@@ -57,7 +57,7 @@
                       class="vehicle-width-input"
                       [value]="vehicleWidth"
                       (input)="onWidthKeyup($event.target.value)"
-                      (change)="onWidthChange($event.target.value)"
+                      (change)="onWidthChange()"
                       numbersOnly
                       emojiBlock
                       pasteSanitiser
