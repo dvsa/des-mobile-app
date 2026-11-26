@@ -77,6 +77,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   feedback: string;
   hasClickedComplete = false;
   merged$: Observable<string | void>;
+  feedbackCharLimit = 950;
 
   constructor(
     private testResultProvider: TestResultProvider,

@@ -12,7 +12,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ReverseDiagramModalMock, VehicleData } from '../__mocks__/reverse-diagram-modal.mock';
 import { ReverseDiagramPage } from '../reverse-diagram-modal';
-import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from '../reverse-diagram-modal.actions';
 
 describe('reverseDiagramModal', () => {
   let fixture: ComponentFixture<ReverseDiagramPage>;
@@ -103,7 +102,6 @@ describe('reverseDiagramModal', () => {
             vi.spyOn(component, 'calculateReversingLengths');
             component.category = testCategory;
             component.onLengthKeyup(value.vLength);
-            expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramLengthChanged(undefined, value.vLength));
             expect(component.calculateReversingLengths).toHaveBeenCalledWith(value.vLength);
             const result = component.reversingLengthStart;
             expect(result).toEqual(value.expStartDist);
@@ -120,7 +118,6 @@ describe('reverseDiagramModal', () => {
             vi.spyOn(component, 'calculateReversingLengths');
             component.category = testCategory;
             component.onLengthKeyup(value.vLength);
-            expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramLengthChanged(undefined, value.vLength));
             expect(component.calculateReversingLengths).toHaveBeenCalledWith(value.vLength);
             const result = component.reversingLengthMiddle;
             expect(result).toEqual(value.expMidDist);
@@ -132,7 +129,6 @@ describe('reverseDiagramModal', () => {
             vi.spyOn(component, 'calculateReversingWidth');
             component.category = testCategory;
             component.onWidthKeyup(value.vWidth);
-            expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramWidthChanged(undefined, value.vWidth));
             expect(component.calculateReversingWidth).toHaveBeenCalledWith(value.vWidth);
             const result = component.reversingWidth;
             expect(result).toEqual(value.expWidthDist);

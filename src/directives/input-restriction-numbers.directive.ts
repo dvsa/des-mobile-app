@@ -12,7 +12,7 @@ export class InputRestrictionNumbersDirective {
   onKeyDown(e: KeyboardEvent) {
     const { key } = e;
 
-    if (includes(this.controlKeys, key)) {
+    if (includes(this.controlKeys, key) || e.ctrlKey || e.metaKey) {
       return;
     }
     if (key < '0' || key > '9') {

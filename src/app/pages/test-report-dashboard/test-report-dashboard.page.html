@@ -61,7 +61,11 @@
     >
   </dashboard-item>
 
-  <review-feedback [form]="form" [feedback]="pageState.feedback$ | async" (feedbackChange)="feedbackChanged($event)">
+  <review-feedback
+    [feedbackCharLimit]="feedbackCharLimit"
+    [form]="form"
+    [feedback]="pageState.feedback$ | async"
+    (feedbackChange)="feedbackChanged($event)">
   </review-feedback>
 </ion-content>
 
