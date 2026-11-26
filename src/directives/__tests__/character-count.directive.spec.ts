@@ -253,6 +253,68 @@ describe('Directive: CharacterCountDirective', () => {
       expect(fixture.componentInstance.control.value).toBe('ab');
     });
 
+    it('preserves an over-limit value and selection through the final composition input', () => {
+      const fixture = TestBed.createComponent(TestHardLimitComponent);
+      const original = `${'a'.repeat(950)}Z`;
+      fixture.componentInstance.control.setValue(original);
+      fixture.detectChanges();
+      const input: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+      input.setSelectionRange(0, 1);
+      input.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+      input.value = `é${original.slice(1)}`;
+      input.dispatchEvent(new InputEvent('input', { bubbles: true, isComposing: true }));
+      input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true, data: 'é' }));
+
+      expect(input.value).toBe(original);
+      expect([input.selectionStart, input.selectionEnd]).toEqual([0, 1]);
+      input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertCompositionText', data: 'é' }));
+
+      expect(input.value).toBe(original);
+      expect([input.selectionStart, input.selectionEnd]).toEqual([0, 1]);
+      expect(fixture.componentInstance.control.value).toBe(original);
+    });
+
+    it('retains the composition snapshot through a final composition beforeinput', () => {
+      const fixture = TestBed.createComponent(TestHardLimitComponent);
+      const original = `${'a'.repeat(950)}Z`;
+      fixture.componentInstance.control.setValue(original);
+      fixture.detectChanges();
+      const input: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+      input.setSelectionRange(0, 1);
+      input.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+      input.value = `é${original.slice(1)}`;
+      input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true, data: 'é' }));
+      input.dispatchEvent(
+        new InputEvent('beforeinput', { bubbles: true, inputType: 'insertFromComposition', data: 'é' })
+      );
+      input.value = `é${original.slice(1)}`;
+      input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertFromComposition', data: 'é' }));
+
+      expect(input.value).toBe(original);
+      expect([input.selectionStart, input.selectionEnd]).toEqual([0, 1]);
+      expect(fixture.componentInstance.control.value).toBe(original);
+    });
+
+    it('uses a fresh selection for the next edit if composition has no final input', () => {
+      const fixture = TestBed.createComponent(TestHardLimitComponent);
+      fixture.componentInstance.limit = 4;
+      fixture.componentInstance.control.setValue('abXY');
+      fixture.detectChanges();
+      const input: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+      input.setSelectionRange(1, 2);
+      input.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true }));
+      input.value = 'aéXY';
+      input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+      input.setSelectionRange(3, 4);
+      input.dispatchEvent(new InputEvent('beforeinput', { bubbles: true, inputType: 'insertText', data: 'é' }));
+      input.value = 'abXé';
+      input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: 'é' }));
+
+      expect(input.value).toBe('abXY');
+      expect([input.selectionStart, input.selectionEnd]).toEqual([3, 4]);
+      expect(fixture.componentInstance.control.value).toBe('abXY');
+    });
+
     it('allows an over-limit value to be reduced without discarding its remainder', () => {
       const fixture = TestBed.createComponent(TestHardLimitComponent);
       fixture.componentInstance.limit = 3;

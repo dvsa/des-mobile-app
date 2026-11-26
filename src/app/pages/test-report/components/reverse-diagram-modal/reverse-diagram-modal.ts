@@ -74,6 +74,9 @@ export class ReverseDiagramPage implements OnInit {
   @Input()
   isPracticeMode: boolean;
 
+  oldWidth: number;
+  oldLength: number;
+
   componentState: ReverseDiagramPageState;
   subscription: Subscription;
   catSubscription: Subscription;
@@ -192,18 +195,20 @@ export class ReverseDiagramPage implements OnInit {
   }
 
   onLengthKeyup(vehicleLength: number): void {
+    this.oldLength = vehicleLength;
     this.calculateReversingLengths(vehicleLength);
   }
 
   onLengthChange(vehicleLength: number): void {
-    this.store$.dispatch(ReverseDiagramLengthChanged(this.vehicleLength, vehicleLength));
+    this.store$.dispatch(ReverseDiagramLengthChanged(this.vehicleLength, this.oldLength));
   }
 
   onWidthKeyup(vehicleWidth: number): void {
+    this.oldWidth = vehicleWidth;
     this.calculateReversingWidth(vehicleWidth);
   }
 
   onWidthChange(vehicleWidth: number): void {
-    this.store$.dispatch(ReverseDiagramWidthChanged(this.vehicleWidth, vehicleWidth));
+    this.store$.dispatch(ReverseDiagramWidthChanged(this.vehicleWidth, this.oldWidth));
   }
 }

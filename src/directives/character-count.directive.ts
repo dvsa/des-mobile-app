@@ -58,6 +58,7 @@ export class CharacterCountDirective implements AfterViewInit, OnDestroy {
   private edit: { value: string; start: number; end: number } = null;
   // IME input can generate several intermediate input events for one edit.
   private composing = false;
+  private compositionCommitted = false;
   private readonly limitEvents = ['beforeinput', 'paste', 'input', 'compositionstart', 'compositionend'] as const;
 
   constructor(public el: ElementRef) {
@@ -98,15 +99,26 @@ export class CharacterCountDirective implements AfterViewInit, OnDestroy {
     if (this.hardLimit == null) {
       this.edit = null;
       this.composing = false;
+      this.compositionCommitted = false;
       return;
     }
     const element: HTMLInputElement | HTMLTextAreaElement = this.el.nativeElement;
+    // A final composition beforeinput belongs to the existing selection, not a new edit.
+    if (
+      this.compositionCommitted &&
+      event.type === 'beforeinput' &&
+      event instanceof InputEvent &&
+      (event.inputType === 'insertCompositionText' || event.inputType === 'insertFromComposition')
+    ) {
+      return;
+    }
     // Capture paste separately: the paste sanitiser inserts text programmatically
     // and dispatches input without a preceding browser beforeinput event.
     if (
       event.type === 'compositionstart' ||
       ((event.type === 'beforeinput' || event.type === 'paste') && !this.composing)
     ) {
+      this.compositionCommitted = false;
       this.edit = {
         value: element.value,
         // Non-selectable inputs expose null selection offsets; treat them as a
@@ -115,13 +127,18 @@ export class CharacterCountDirective implements AfterViewInit, OnDestroy {
         end: element.selectionEnd ?? element.value.length,
       };
       if (event.type === 'compositionstart') this.composing = true;
-    } else if (event.type === 'compositionend' || (event.type === 'input' && !this.composing)) {
+    } else if (event.type === 'compositionend') {
       // Leave intermediate composition text alone, then enforce once it commits.
       this.composing = false;
       this.limitInput(element);
-      this.edit = null;
+      this.compositionCommitted = true;
       // Composition can finish without another input event for the counter.
-      if (event.type === 'compositionend') this.handleChange(element.value);
+      this.handleChange(element.value);
+    } else if (event.type === 'input' && !this.composing) {
+      // Reuse the original selection if the browser supplies a final input.
+      this.limitInput(element);
+      this.edit = null;
+      this.compositionCommitted = false;
     }
   };
 
