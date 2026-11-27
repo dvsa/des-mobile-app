@@ -703,7 +703,7 @@ describe('ExaminerRecordsPage', () => {
         component.getOnlineRecords();
 
         expect(store$.dispatch).toHaveBeenCalledWith(LoadingExaminerRecords());
-        expect(store$.dispatch).toHaveBeenCalledWith(GetExaminerRecords('1'));
+        expect(store$.dispatch).toHaveBeenCalledWith(GetExaminerRecords());
       }
     );
 

@@ -21,10 +21,7 @@ export const TestCategoryChanged = createAction(
   (testCategory: TestCategory) => ({ testCategory })
 );
 
-export const GetExaminerRecords = createAction(
-  '[ExaminerRecordsPage] Get remote examiner records details',
-  (staffNumber: string) => ({ staffNumber })
-);
+export const GetExaminerRecords = createAction('[ExaminerRecordsPage] Get remote examiner records details');
 
 export const ClickDataCard = createAction(
   '[ExaminerRecordsPage] Card has been clicked',

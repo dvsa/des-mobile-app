@@ -388,9 +388,8 @@ export class ExaminerRecordsPage implements OnInit {
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
       this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
     ) {
-      const staffNumber: string = this.store$.selectSignal(selectEmployeeId)();
       this.store$.dispatch(LoadingExaminerRecords());
-      this.store$.dispatch(GetExaminerRecords(staffNumber));
+      this.store$.dispatch(GetExaminerRecords());
     }
   }
 

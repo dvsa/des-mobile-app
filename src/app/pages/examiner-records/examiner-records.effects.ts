@@ -46,10 +46,10 @@ export class ExaminerRecordsEffects {
     () =>
       this.actions$.pipe(
         ofType(GetExaminerRecords),
-        switchMap(({ staffNumber }) => {
+        switchMap(() => {
           // Get remote data for examiner records
           return this.searchProvider
-            .examinerRecordsSearch(staffNumber, null, moment(new Date()).subtract(15, 'days').format('YYYY-MM-DD'))
+            .examinerRecordsSearch(null, moment(new Date()).subtract(15, 'days').format('YYYY-MM-DD'))
             .pipe(
               catchError((err) => {
                 this.store$.dispatch(
